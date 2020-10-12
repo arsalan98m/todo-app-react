@@ -8,8 +8,14 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
+
 import AssignmentIcon from "@material-ui/icons/Assignment";
+
+// database
+import { db } from "./firebase";
+
+// update todo component
+import UpdateTodo from "./UpdateTodo";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,16 +45,21 @@ export default function Todo({ todo }) {
             </ListItemAvatar>
             <ListItemText
               style={{ textTransform: "capitalize" }}
-              primary={todo}
+              primary={todo.todo}
             />
             <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="delete">
+              <IconButton
+                edge="end"
+                aria-label="delete"
+                onClick={() => db.collection("todos").doc(todo.id).delete()}
+              >
                 <DeleteIcon />
               </IconButton>
 
-              <IconButton edge="end" aria-label="delete">
+              {/* <IconButton edge="end" aria-label="delete">
                 <EditIcon />
-              </IconButton>
+              </IconButton> */}
+              <UpdateTodo todo={todo} />
             </ListItemSecondaryAction>
           </ListItem>
         </List>

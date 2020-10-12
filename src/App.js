@@ -53,7 +53,9 @@ function App() {
     db.collection("todos")
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
-        setTodos(snapshot.docs.map((doc) => doc.data().todo));
+        setTodos(
+          snapshot.docs.map((doc) => ({ id: doc.id, todo: doc.data().todo }))
+        );
       });
   }, []);
 
@@ -74,7 +76,7 @@ function App() {
             <h1>
               TODO APP{" "}
               <span role="img" aria-label="rocket">
-                🚀
+                🚀 !
               </span>
             </h1>
           </Paper>
@@ -109,8 +111,8 @@ function App() {
         </Grid>
         <Grid item xs={12} sm={8}>
           <ul>
-            {todos.map((todo, index) => {
-              return <Todo key={index} todo={todo} />;
+            {todos.map((todo) => {
+              return <Todo key={todo.id} todo={todo} />;
             })}
           </ul>
         </Grid>
